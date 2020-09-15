@@ -220,13 +220,20 @@ Blockly.JavaScript['bb_db_table'] = function(block) {
   var value_tabledescript = Blockly.JavaScript.valueToCode(block, 'TableDescript', Blockly.JavaScript.ORDER_ATOMIC);
   var statements_tablefields = Blockly.JavaScript.statementToCode(block, 'TableFields');
   // TODO: Assemble JavaScript into code variable.
+
+  var _tablefields='';
+  if (statements_tablefields!==''){
+    var _last_comma=statements_tablefields.lastIndexOf(","); // get rid of ',\n' 最后的',\n'去掉
+    _tablefields=statements_tablefields.substr(0,_last_comma);
+  }
+
   var today=new Date();
   var t=today.toString('T');
-  var pkid='';
+  var pk_id='';
   var firstField=''; //primary key
   if (checkbox_autopk){
-      pkid='	[RID] [varchar](32) NOT NULL,';
-      firstField='RID';
+      pk_id='[__RId] [varchar](32) NOT NULL,';
+      firstField='__RId';
   }else{
       //get first field code
       //todo?
@@ -240,11 +247,11 @@ GO
 SET ANSI_PADDING OFF
 GO
 CREATE TABLE [dbo].[${text_t_name}](
-    ${pkid}
-	${statements_tablefields}
+${pk_id}
+${_tablefields}
  CONSTRAINT [PK_${text_t_name}] PRIMARY KEY CLUSTERED 
 (
-	[${firstField}] ASC
+[${firstField}] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -262,7 +269,31 @@ Blockly.JavaScript['bb_db_field'] = function(block) {
   var number_field_len = block.getFieldValue('field_len');
   var checkbox_allownull = block.getFieldValue('allowNull') == 'TRUE';
   // TODO: Assemble JavaScript into code variable.
-  var code = '...;\n';
+  var field_len='';
+  if (dropdown_field_type==='char'){
+    dropdown_field_type='varchar';
+    field_len=`(${number_field_len})`;
+  } else if (dropdown_field_type==='float'){
+    dropdown_field_type='numeric';
+    field_len=number_field_len.toString().replace(".",",");
+    if (field_len.indexOf(",")<0){
+      field_len=field_len+",0";
+    }
+    field_len=`(${field_len})`;
+  // } else if (dropdown_field_type==='int'){
+  //   dropdown_field_type='integer';
+  } else if (dropdown_field_type==='date'){
+    dropdown_field_type='datetime';
+  }
+
+  var isNull='';
+  if (checkbox_allownull){
+    isNull='NULL';
+  } else{
+    isNull='NOT NULL';
+  }
+  
+  var code = `[${text_field_code}] [${dropdown_field_type}]${field_len} ${isNull},\n`; //'...;\n';
   return code;
 };
 
