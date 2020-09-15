@@ -6,12 +6,15 @@
     <title>Blockly Demo: Blockly DataBase Tools</title>
     <script src="../../blockly_compressed.js"></script>
     <script src="../../blocks_compressed.js"></script>
+    <script src="../../javascript_compressed.js"></script>
     <!-- <script src="../../blocks/db.js"></script> -->
     <script src="../../db.js"></script>
     <script src="../../msg/js/zh-hans.js"></script>
 </head>
 <body>
     <h1>数据库设计工具 (Blockly DataBase Tools)
+        <button onclick="showCode()">Show JavaScript</button>
+        <button onclick="runCode()">Run JavaScript</button>
         <button id="helpButton" title="View documentation in new window.">
           <span>Help</span>
         </button>
@@ -91,6 +94,7 @@
                                     <field name="field_code">ChanDi</field>
                                     <field name="field_type">char</field>
                                     <field name="field_len">50</field>
+                                    <field name="allowNull">TRUE</field>
                                     <next>
                                         <block type="bb_db_field">
                                             <field name="field_name">市场均价(元/斤)</field>
@@ -116,13 +120,34 @@
                     </value>
                     <value name="TableFields">
                         <block type="bb_db_field">
+                            <field name="field_name">姓名</field>
+                            <field name="field_code">Xingming</field>
+                            <field name="field_type">char</field>
+                            <field name="field_len">20</field>
+                            <field name="allowNull">FALSE</field>
                             <next>                            
-                                <block type="bb_db_field"></block>
+                                <block type="bb_db_field">
+                                    <field name="field_name">出生日期</field>
+                                    <field name="field_code">Chushengriqi</field>
+                                    <field name="field_type">date</field>
+                                    <field name="field_len">0</field>
+                                    <field name="allowNull">FALSE</field>
+                                    <next>
+                                        <block type="bb_db_field">
+                                            <field name="field_name">身高(毫米)</field>
+                                            <field name="field_code">Shengao</field>
+                                            <field name="field_type">int</field>
+                                            <field name="field_len">8</field>
+                                            <field name="allowNull">FALSE</field>                                            
+                                        </block>
+                                    </next>
+                                </block>
                             </next>
                         </block>
                     </value>
-                </block>
-
+                </block>                
+            </category>
+            <category name="表元示范">
                 <block type="bb_db_table">
                     <field name="t_title">表中表</field>
                     <field name="t_name">TableSchemeInfo</field>
@@ -133,8 +158,40 @@
                     </value>
                     <value name="TableFields">
                         <block type="bb_db_field">
-                            <next>                            
-                                <block type="bb_db_field"></block>
+                            <field name="field_name">数据集标题</field>
+                            <field name="field_code">TableName</field>
+                            <field name="field_type">char</field>
+                            <field name="field_len">50</field>
+                            <field name="allowNull">FALSE</field> 
+                            <next>
+                                <block type="bb_db_field">
+                                    <field name="field_name">表名编码</field>
+                                    <field name="field_code">TableCode</field>
+                                    <field name="field_type">char</field>
+                                    <field name="field_len">32</field>
+                                    <field name="allowNull">FALSE</field> 
+                                    <next>
+                                        <block type="bb_db_field">
+                                            <field name="field_name">自动生成主键</field>
+                                            <field name="field_code">AutoPK</field>
+                                            <field name="field_type">others</field>
+                                            <field name="field_len">1</field>
+                                            <field name="allowNull">FALSE</field>
+                                            <value name="OtherType">
+                                                <block type="bb_db_fieldtype_bool"></block>
+                                            </value>
+                                            <next>
+                                                <block type="bb_db_field">
+                                                    <field name="field_name">描述</field>
+                                                    <field name="field_code">Description</field>
+                                                    <field name="field_type">char</field>
+                                                    <field name="field_len">100</field>
+                                                    <field name="allowNull">TRUE</field> 
+                                                </block>
+                                            </next>
+                                        </block>
+                                    </next>
+                                </block>
                             </next>
                         </block>
                     </value>
@@ -147,11 +204,35 @@
         </category>
     </xml>
 
-
     <script>
         var dbWorkspace= Blockly.inject('blocklyDiv',
             {media:'../../media/',
             toolbox:document.getElementById('toolbox')});
+
+        // load from xml (define just like toolbox) if necessary
+        // Blockly.Xml.domToWorkspace(document.getElementById('startBlocks'),
+        //                        dbWorkspace);
+
+        function showCode() {
+            // Generate JavaScript code and display it.
+            Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+            var code = Blockly.JavaScript.workspaceToCode(dbWorkspace);
+            alert(code);
+        }
+
+        function runCode() {
+            // Generate JavaScript code and run it.
+            window.LoopTrap = 1000;
+            Blockly.JavaScript.INFINITE_LOOP_TRAP =
+                'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+            var code = Blockly.JavaScript.workspaceToCode(dbWorkspace);
+            Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+            try {
+                eval(code);
+            } catch (e) {
+                alert(e);
+            }
+        }
     </script>
 </body>
 </html>

@@ -32,6 +32,7 @@
 Blockly.Constants.Math.HUE = 120; //?Db
 
 Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
+  // Block for db table
 {
     "type": "bb_db_table",
     "message0": "%1 %2 数据集     %3 自动生成主键 %4 表名： %5 %6 %7 %8 %9 %10",
@@ -91,6 +92,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "表设计",
     "helpUrl": "http://www.suncai.net/"
 },
+// Block for db field
 {
     "type": "bb_db_field",
     "lastDummyAlign0": "RIGHT",
@@ -162,6 +164,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "字段",
     "helpUrl": "http://www.suncai.net/"
   },
+  // Block for db field type--string
   {
     "type": "bb_db_fieldtype_char",
     "message0": "文本类型",
@@ -171,6 +174,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "文本(字符)类型",
     "helpUrl": "http://www.suncai.net/"
   },
+  // Block for db field type--float
   {
     "type": "bb_db_fieldtype_float",
     "message0": "小数类型",
@@ -180,6 +184,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "浮点（小数）类型",
     "helpUrl": "http://www.suncai.net"
   },
+  // Block for db field type--int
   {
     "type": "bb_db_fieldtype_int",
     "message0": "整数类型",
@@ -188,6 +193,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "整数类型",
     "helpUrl": "http://www.suncai.net/"
   },
+  // Block for db field type--datetime
   {
     "type": "bb_db_fieldtype_date",
     "message0": "日期类型",
@@ -196,6 +202,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "tooltip": "日期类型",
     "helpUrl": "http://www.suncai.net/"
   },
+  // Block for db field type--boolean
   {
     "type": "bb_db_fieldtype_bool",
     "message0": "布尔类型",
@@ -205,3 +212,91 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
     "helpUrl": "http://www.suncai.net/"
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
+
+Blockly.JavaScript['bb_db_table'] = function(block) {
+  var text_t_title = block.getFieldValue('t_title');
+  var checkbox_autopk = block.getFieldValue('autoPK') == 'TRUE';
+  var text_t_name = block.getFieldValue('t_name');
+  var value_tabledescript = Blockly.JavaScript.valueToCode(block, 'TableDescript', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_tablefields = Blockly.JavaScript.statementToCode(block, 'TableFields');
+  // TODO: Assemble JavaScript into code variable.
+  var today=new Date();
+  var t=today.toString('T');
+  var pkid='';
+  var firstField=''; //primary key
+  if (checkbox_autopk){
+      pkid='	[RID] [varchar](32) NOT NULL,';
+      firstField='RID';
+  }else{
+      //get first field code
+      //todo?
+  }
+  var code = `\n
+  /****** Object:  Table [dbo].[${text_t_name}]  ${text_t_title}  Script Date: ${t} ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING OFF
+GO
+CREATE TABLE [dbo].[${text_t_name}](
+    ${pkid}
+	${statements_tablefields}
+ CONSTRAINT [PK_${text_t_name}] PRIMARY KEY CLUSTERED 
+(
+	[${firstField}] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO`;
+  return code;
+};
+
+Blockly.JavaScript['bb_db_field'] = function(block) {
+  var text_field_name = block.getFieldValue('field_name');
+  var text_field_code = block.getFieldValue('field_code');
+  var dropdown_field_type = block.getFieldValue('field_type');
+  var value_othertype = Blockly.JavaScript.valueToCode(block, 'OtherType', Blockly.JavaScript.ORDER_ATOMIC);
+  var number_field_len = block.getFieldValue('field_len');
+  var checkbox_allownull = block.getFieldValue('allowNull') == 'TRUE';
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...;\n';
+  return code;
+};
+
+Blockly.JavaScript['bb_db_fieldtype_char'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_float'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_int'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_date'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_bool'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = '...';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
