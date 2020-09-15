@@ -277,6 +277,14 @@ Blockly.JavaScript['bb_db_field'] = function(block) {
   var checkbox_allownull = block.getFieldValue('allowNull') == 'TRUE';
   // TODO: Assemble JavaScript into code variable.
   var field_len='';
+  //其他类型（不在下拉列表中的--扩充类型或不常用类型）
+  if (dropdown_field_type==='others'){
+    //other field data types ,should read from  [OtherType]
+    // 去掉括号（运算符优先级），返回形如：'(value_othertype)' ,(bool);
+    dropdown_field_type=value_othertype.replace(/^\(([a-z|A-Z]*)\)$/,"$1");
+    // alert(dropdown_field_type);
+  }
+  //转换到MS-SQL数据类型
   if (dropdown_field_type==='char'){
     dropdown_field_type='varchar';
     field_len=`(${number_field_len})`;
@@ -291,6 +299,8 @@ Blockly.JavaScript['bb_db_field'] = function(block) {
   //   dropdown_field_type='integer';
   } else if (dropdown_field_type==='date'){
     dropdown_field_type='datetime';
+  } else if (dropdown_field_type==='bool'){
+    dropdown_field_type='bit';
   }
 
   var isNull='';
@@ -306,35 +316,35 @@ Blockly.JavaScript['bb_db_field'] = function(block) {
 
 Blockly.JavaScript['bb_db_fieldtype_char'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '...';
+  var code = 'char';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['bb_db_fieldtype_float'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '...';
+  var code = 'float';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['bb_db_fieldtype_int'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '...';
+  var code = 'int';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['bb_db_fieldtype_date'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '...';
+  var code = 'date';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
 Blockly.JavaScript['bb_db_fieldtype_bool'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = '...';
+  var code = 'bool';
   // TODO: Change ORDER_NONE to the correct strength.
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
