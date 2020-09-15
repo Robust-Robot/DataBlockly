@@ -213,6 +213,7 @@ Blockly.defineBlocksWithJsonArray([  // BEGIN JSON EXTRACT
   }
 ]);  // END JSON EXTRACT (Do not delete this comment.)
 
+
 Blockly.JavaScript['bb_db_table'] = function(block) {
   var text_t_title = block.getFieldValue('t_title');
   var checkbox_autopk = block.getFieldValue('autoPK') == 'TRUE';
@@ -221,23 +222,28 @@ Blockly.JavaScript['bb_db_table'] = function(block) {
   var statements_tablefields = Blockly.JavaScript.statementToCode(block, 'TableFields');
   // TODO: Assemble JavaScript into code variable.
 
-  var _tablefields='';
-  if (statements_tablefields!==''){
-    var _last_comma=statements_tablefields.lastIndexOf(","); // get rid of ',\n' 最后的',\n'去掉
-    _tablefields=statements_tablefields.substr(0,_last_comma);
-  }
-
   var today=new Date();
   var t=today.toString('T');
   var pk_id='';
   var firstField=''; //primary key
-  if (checkbox_autopk){
+  var _tablefields='';
+
+  if (statements_tablefields!==''){ //fields are not empty
+    if (checkbox_autopk){ //auto generate primary key '__RId'
       pk_id='[__RId] [varchar](32) NOT NULL,';
-      firstField='__RId';
-  }else{
+      firstField='[__RId]';
+    }else{
       //get first field code
-      //todo?
+      var _first_comma=statements_tablefields.indexOf(",");
+      //截取并去左空格，第一个为字段名称
+      firstField=statements_tablefields.substr(0,_first_comma).replace(/(^\s*)/g, "").split(" ")[0];
+    }
+
+    var _last_comma=statements_tablefields.lastIndexOf(","); // get rid of ',\n' 最后的',\n'去掉
+    _tablefields=statements_tablefields.substr(0,_last_comma);
   }
+
+  var _copyleft=`@2020 德和居 powered by 曲院风荷 出品`;
   var code = `\n
   /****** Object:  Table [dbo].[${text_t_name}]  ${text_t_title}  Script Date: ${t} ******/
 SET ANSI_NULLS ON
@@ -251,13 +257,14 @@ ${pk_id}
 ${_tablefields}
  CONSTRAINT [PK_${text_t_name}] PRIMARY KEY CLUSTERED 
 (
-[${firstField}] ASC
+${firstField} ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
 SET ANSI_PADDING OFF
-GO`;
+GO
+/****** ${_copyleft} ******/`;
   return code;
 };
 
