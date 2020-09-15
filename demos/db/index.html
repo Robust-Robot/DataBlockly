@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockly Demo: Blockly DataBase Tools</title>
+    <script src="../../blockly_compressed.js"></script>
+    <script src="../../blocks_compressed.js"></script>
+    <!-- <script src="../../blocks/db.js"></script> -->
+    <script src="../../db.js"></script>
+    <script src="../../msg/js/zh-hans.js"></script>
+</head>
+<body>
+    <h1>数据库设计工具 (Blockly DataBase Tools)
+        <button id="helpButton" title="View documentation in new window.">
+          <span>Help</span>
+        </button>
+    </h1>
+    <div id="blocklyDiv" style="width: 800px;height: 600px;"></div>
+    <xml xmlns="https://developers.google.com/blockly/xml" id="toolbox" style="display: none">
+        <category name="表字段" colour="230">
+            <block type="bb_db_table">
+                <value name="TableDescript">
+                    <shadow type="text">
+                        <field name="TEXT">该表说明文字</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="bb_db_field"></block>
+            <block type="text"></block>
+        </category>
+        <category name="字段类型" colour="%{BKY_LOOPS_HUE}">
+            <block type="bb_db_fieldtype_char"></block>
+            <block type="bb_db_fieldtype_float"></block>
+            <block type="bb_db_fieldtype_int"></block>
+            <block type="bb_db_fieldtype_bool"></block>
+            <!-- <block type="logic_boolean"></block> -->
+            <block type="bb_db_fieldtype_date"></block>
+        </category>
+        <sep></sep>
+        <category name="云表仓库" expanded="true">
+            <category name="属性模板仓">
+                <block type="bb_db_field">
+                    <field name="field_name">名称</field>
+                    <field name="field_code">Mingcheng</field>
+                    <field name="field_type">char</field>
+                    <field name="field_len">20</field>
+                    <field name="allowNull">FALSE</field>
+                </block>
+                <block type="bb_db_field">
+                    <field name="field_name">日期</field>
+                    <field name="field_code">Riqi</field>
+                    <field name="field_type">date</field>
+                    <field name="field_len">0</field>
+                    <field name="allowNull">TRUE</field>
+                </block>
+                <block type="bb_db_field">
+                    <field name="field_name">数量</field>
+                    <field name="field_code">Shuliang</field>
+                    <field name="field_type">int</field>
+                    <field name="field_len">8</field>
+                    <field name="allowNull">FALSE</field>
+                </block>
+                <block type="bb_db_field">
+                    <field name="field_name">金额</field>
+                    <field name="field_code">Jiner</field>
+                    <field name="field_type">float</field>
+                    <field name="field_len">9.2</field>
+                    <field name="allowNull">FALSE</field>
+                </block>
+            </category>
+            <category name="示例表集">
+                <block type="bb_db_table">
+                    <field name="t_title">水果</field>
+                    <field name="t_name">ShuiGuo</field>
+                    <value name="TableDescript">
+                        <shadow type="text">
+                            <field name="TEXT">该表描述所有水果的各种属性信息</field>
+                        </shadow>
+                    </value>
+                    <value name="TableFields">
+                        <block type="bb_db_field">
+                            <field name="field_name">名称</field>
+                            <field name="field_code">MingCheng</field>
+                            <field name="field_type">char</field>
+                            <field name="field_len">20</field>
+                            <field name="allowNull">FALSE</field>
+                            <next>                            
+                                <block type="bb_db_field">
+                                    <field name="field_name">产地</field>
+                                    <field name="field_code">ChanDi</field>
+                                    <field name="field_type">char</field>
+                                    <field name="field_len">50</field>
+                                    <next>
+                                        <block type="bb_db_field">
+                                            <field name="field_name">市场均价(元/斤)</field>
+                                            <field name="field_code">DanJia</field>
+                                            <field name="field_type">float</field>
+                                            <field name="field_len">9.2</field>
+                                            <field name="allowNull">FALSE</field>                                            
+                                        </block>
+                                    </next>
+                                </block>
+                            </next>
+                        </block>
+                    </value>
+                </block>
+
+                <block type="bb_db_table">
+                    <field name="t_title">人员表</field>
+                    <field name="t_name">T_People</field>
+                    <value name="TableDescript">
+                        <shadow type="text">
+                            <field name="TEXT">该表记录系统中所有人员信息</field>
+                        </shadow>
+                    </value>
+                    <value name="TableFields">
+                        <block type="bb_db_field">
+                            <next>                            
+                                <block type="bb_db_field"></block>
+                            </next>
+                        </block>
+                    </value>
+                </block>
+
+                <block type="bb_db_table">
+                    <field name="t_title">表中表</field>
+                    <field name="t_name">TableSchemeInfo</field>
+                    <value name="TableDescript">
+                        <shadow type="text">
+                            <field name="TEXT">该表说明一个表包含的内容</field>
+                        </shadow>
+                    </value>
+                    <value name="TableFields">
+                        <block type="bb_db_field">
+                            <next>                            
+                                <block type="bb_db_field"></block>
+                            </next>
+                        </block>
+                    </value>
+                </block>
+            </category>
+            
+            <!-- <category name="市场云仓">
+                <button style="height: 50px;">数据集市</button>
+            </category> -->
+        </category>
+    </xml>
+
+
+    <script>
+        var dbWorkspace= Blockly.inject('blocklyDiv',
+            {media:'../../media/',
+            toolbox:document.getElementById('toolbox')});
+    </script>
+</body>
+</html>
