@@ -1,4 +1,36 @@
-"use strict";Blockly.Constants.Math.HUE=120;Blockly.defineBlocksWithJsonArray([{"type":"bb_db_table","message0":"%1 %2 数据集     %3 自动生成主键 %4 表名： %5 %6 %7 %8 %9 %10","args0":[{"type":"field_image","src":"https://www.gstatic.com/codesite/ph/images/star_on.gif","width":16,"height":16,"alt":"类型：表","flipRtl":false},{"type":"field_input","name":"t_title","text":"无名标题"},{"type":"field_checkbox","name":"autoPK","checked":true},{"type":"input_dummy"},{"type":"field_input","name":"t_name","text":"nonameTable"},{"type":"input_dummy"},{"type":"field_label_serializable","name":"t_description","text":"  描述"},{"type":"input_value","name":"TableDescript","check":"String"},{"type":"field_label_serializable","name":"t_fields","text":"字段"},{"type":"input_statement","name":"TableFields","check":"bb_db_field"}],"inputsInline":true,"colour":120,"tooltip":"表设计","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_field","lastDummyAlign0":"RIGHT","message0":"属性： %1  代码： %2  类型： %3 %4  长度 = %5      %6 允许空值","args0":[{"type":"field_input","name":"field_name","text":"字段0"},{"type":"field_input","name":"field_code","text":"fieldname0"},{"type":"field_dropdown","name":"field_type","options":[["文本","char"],["整数","int"],["小数","float"],["日期","date"],["其它","others"]]},{"type":"input_value","name":"OtherType","check":["bb_db_fieldtype","bb_db_fieldtype_char","bb_db_fieldtype_int","bb_db_fieldtype_float","bb_db_fieldtype_bool","bb_db_fieldtype_date"]},{"type":"field_number","name":"field_len","value":50,"min":0},{"type":"field_checkbox","name":"allowNull","checked":true}],"inputsInline":false,"previousStatement":"bb_db_field","nextStatement":"bb_db_field","colour":180,"tooltip":"字段","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_char","message0":"文本类型","inputsInline":true,"output":"bb_db_fieldtype_char","colour":230,"tooltip":"文本(字符)类型","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_float","message0":"小数类型","inputsInline":true,"output":"bb_db_fieldtype_float","colour":230,"tooltip":"浮点（小数）类型","helpUrl":"http://www.suncai.net"},{"type":"bb_db_fieldtype_int","message0":"整数类型","output":"bb_db_fieldtype_int","colour":230,"tooltip":"整数类型","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_date","message0":"日期类型","output":"bb_db_fieldtype_date","colour":230,"tooltip":"日期类型","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_bool","message0":"布尔类型","output":"bb_db_fieldtype_bool","colour":180,"tooltip":"布尔逻辑（真假，0或1）类型","helpUrl":"http://www.suncai.net/"}]);Blockly.JavaScript["bb_db_table"]=function(block){var text_t_title=block.getFieldValue("t_title");var checkbox_autopk=block.getFieldValue("autoPK")=="TRUE";var text_t_name=block.getFieldValue("t_name");var value_tabledescript=Blockly.JavaScript.valueToCode(block,"TableDescript",Blockly.JavaScript.ORDER_ATOMIC);var statements_tablefields=Blockly.JavaScript.statementToCode(block,"TableFields");var today=new Date();var t=today.toString("T");var pkid="";var firstField="";if(checkbox_autopk){pkid="	[RID] [varchar](32) NOT NULL,";firstField="RID"}else{}var code=`\n
+"use strict";Blockly.Constants.Math.HUE=120;Blockly.defineBlocksWithJsonArray([{"type":"bb_db_table","message0":"%1 %2 数据集     %3 自动生成主键 %4 表名： %5 %6 %7 %8 %9 %10","args0":[{"type":"field_image","src":"https://www.gstatic.com/codesite/ph/images/star_on.gif","width":16,"height":16,"alt":"类型：表","flipRtl":false},{"type":"field_input","name":"t_title","text":"无名标题"},{"type":"field_checkbox","name":"autoPK","checked":true},{"type":"input_dummy"},{"type":"field_input","name":"t_name","text":"nonameTable"},{"type":"input_dummy"},{"type":"field_label_serializable","name":"t_description","text":"  描述"},{"type":"input_value","name":"TableDescript","check":"String"},{"type":"field_label_serializable","name":"t_fields","text":"字段"},{"type":"input_statement","name":"TableFields","check":"bb_db_field"}],"inputsInline":true,"colour":120,"tooltip":"表设计","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_field","lastDummyAlign0":"RIGHT","message0":"属性： %1  代码： %2  类型： %3 %4  长度 = %5      %6 允许空值","args0":[{"type":"field_input","name":"field_name","text":"字段0"},{"type":"field_input","name":"field_code","text":"fieldname0"},{"type":"field_dropdown","name":"field_type","options":[["文本","char"],["整数","int"],["小数","float"],["日期","date"],["其它","others"]]},{"type":"input_value","name":"OtherType","check":["bb_db_fieldtype","bb_db_fieldtype_char","bb_db_fieldtype_int","bb_db_fieldtype_float","bb_db_fieldtype_bool","bb_db_fieldtype_date"]},{"type":"field_number","name":"field_len","value":50,"min":0},{"type":"field_checkbox","name":"allowNull","checked":true}],"inputsInline":false,"previousStatement":"bb_db_field","nextStatement":"bb_db_field","colour":180,"tooltip":"字段","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_char","message0":"文本类型","inputsInline":true,"output":"bb_db_fieldtype_char","colour":230,"tooltip":"文本(字符)类型","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_float","message0":"小数类型","inputsInline":true,"output":"bb_db_fieldtype_float","colour":230,"tooltip":"浮点（小数）类型","helpUrl":"http://www.suncai.net"},{"type":"bb_db_fieldtype_int","message0":"整数类型","output":"bb_db_fieldtype_int","colour":230,"tooltip":"整数类型","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_date","message0":"日期类型","output":"bb_db_fieldtype_date","colour":230,"tooltip":"日期类型","helpUrl":"http://www.suncai.net/"},{"type":"bb_db_fieldtype_bool","message0":"布尔类型","output":"bb_db_fieldtype_bool","colour":180,"tooltip":"布尔逻辑（真假，0或1）类型","helpUrl":"http://www.suncai.net/"}]);
+
+Blockly.JavaScript['bb_db_table'] = function(block) {
+  var text_t_title = block.getFieldValue('t_title');
+  var checkbox_autopk = block.getFieldValue('autoPK') == 'TRUE';
+  var text_t_name = block.getFieldValue('t_name');
+  var value_tabledescript = Blockly.JavaScript.valueToCode(block, 'TableDescript', Blockly.JavaScript.ORDER_ATOMIC);
+  var statements_tablefields = Blockly.JavaScript.statementToCode(block, 'TableFields');
+  // TODO: Assemble JavaScript into code variable.
+
+  var today=new Date();
+  var t=today.toString('T');
+  var pk_id='';
+  var firstField=''; //primary key
+  var _tablefields='';
+
+  if (statements_tablefields!==''){ //fields are not empty
+    if (checkbox_autopk){ //auto generate primary key '__RId'
+      pk_id='[__RId] [varchar](32) NOT NULL,';
+      firstField='[__RId]';
+    }else{
+      //get first field code
+      var _first_comma=statements_tablefields.indexOf(",");
+      //截取并去左空格，第一个为字段名称
+      firstField=statements_tablefields.substr(0,_first_comma).replace(/(^\s*)/g, "").split(" ")[0];
+    }
+
+    var _last_comma=statements_tablefields.lastIndexOf(","); // get rid of ',\n' 最后的',\n'去掉
+    _tablefields=statements_tablefields.substr(0,_last_comma);
+  }
+
+  var _copyleft=`@2020 德和居 powered by 曲院风荷 出品`;
+  var code = `\n
   /****** Object:  Table [dbo].[${text_t_name}]  ${text_t_title}  Script Date: ${t} ******/
 SET ANSI_NULLS ON
 GO
@@ -7,14 +39,98 @@ GO
 SET ANSI_PADDING OFF
 GO
 CREATE TABLE [dbo].[${text_t_name}](
-    ${pkid}
-	${statements_tablefields}
+${pk_id}
+${_tablefields}
  CONSTRAINT [PK_${text_t_name}] PRIMARY KEY CLUSTERED 
 (
-	[${firstField}] ASC
+${firstField} ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
 SET ANSI_PADDING OFF
-GO`;return code};Blockly.JavaScript["bb_db_field"]=function(block){var text_field_name=block.getFieldValue("field_name");var text_field_code=block.getFieldValue("field_code");var dropdown_field_type=block.getFieldValue("field_type");var value_othertype=Blockly.JavaScript.valueToCode(block,"OtherType",Blockly.JavaScript.ORDER_ATOMIC);var number_field_len=block.getFieldValue("field_len");var checkbox_allownull=block.getFieldValue("allowNull")=="TRUE";var code="...;\n";return code};Blockly.JavaScript["bb_db_fieldtype_char"]=function(block){var code="...";return[code,Blockly.JavaScript.ORDER_NONE]};Blockly.JavaScript["bb_db_fieldtype_float"]=function(block){var code="...";return[code,Blockly.JavaScript.ORDER_NONE]};Blockly.JavaScript["bb_db_fieldtype_int"]=function(block){var code="...";return[code,Blockly.JavaScript.ORDER_NONE]};Blockly.JavaScript["bb_db_fieldtype_date"]=function(block){var code="...";return[code,Blockly.JavaScript.ORDER_NONE]};Blockly.JavaScript["bb_db_fieldtype_bool"]=function(block){var code="...";return[code,Blockly.JavaScript.ORDER_NONE]};
+GO
+/****** ${_copyleft} ******/`;
+  return code;
+};
+
+Blockly.JavaScript['bb_db_field'] = function(block) {
+  var text_field_name = block.getFieldValue('field_name');
+  var text_field_code = block.getFieldValue('field_code');
+  var dropdown_field_type = block.getFieldValue('field_type');
+  var value_othertype = Blockly.JavaScript.valueToCode(block, 'OtherType', Blockly.JavaScript.ORDER_ATOMIC);
+  var number_field_len = block.getFieldValue('field_len');
+  var checkbox_allownull = block.getFieldValue('allowNull') == 'TRUE';
+  // TODO: Assemble JavaScript into code variable.
+  var field_len='';
+  //其他类型（不在下拉列表中的--扩充类型或不常用类型）
+  if (dropdown_field_type==='others'){
+    //other field data types ,should read from  [OtherType]
+    // 去掉括号（运算符优先级），返回形如：'(value_othertype)' ,(bool);
+    dropdown_field_type=value_othertype.replace(/^\(([a-z|A-Z]*)\)$/,"$1");
+    // alert(dropdown_field_type);
+  }
+  //转换到MS-SQL数据类型
+  if (dropdown_field_type==='char'){
+    dropdown_field_type='varchar';
+    field_len=`(${number_field_len})`;
+  } else if (dropdown_field_type==='float'){
+    dropdown_field_type='numeric';
+    field_len=number_field_len.toString().replace(".",",");
+    if (field_len.indexOf(",")<0){
+      field_len=field_len+",0";
+    }
+    field_len=`(${field_len})`;
+  // } else if (dropdown_field_type==='int'){
+  //   dropdown_field_type='integer';
+  } else if (dropdown_field_type==='date'){
+    dropdown_field_type='datetime';
+  } else if (dropdown_field_type==='bool'){
+    dropdown_field_type='bit';
+  }
+
+  var isNull='';
+  if (checkbox_allownull){
+    isNull='NULL';
+  } else{
+    isNull='NOT NULL';
+  }
+  
+  var code = `[${text_field_code}] [${dropdown_field_type}]${field_len} ${isNull},\n`; //'...;\n';
+  return code;
+};
+
+Blockly.JavaScript['bb_db_fieldtype_char'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'char';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_float'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'float';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_int'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'int';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_date'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'date';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
+
+Blockly.JavaScript['bb_db_fieldtype_bool'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'bool';
+  // TODO: Change ORDER_NONE to the correct strength.
+  return [code, Blockly.JavaScript.ORDER_NONE];
+};
