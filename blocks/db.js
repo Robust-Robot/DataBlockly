@@ -244,8 +244,9 @@ Blockly.JavaScript['bb_db_table'] = function(block) {
   }
 
   var _copyleft=`@2020 德和居 powered by 曲院风荷 出品`;
-  var code = `\n
-  /****** Object:  Table [dbo].[${text_t_name}]  ${text_t_title}  Script Date: ${t} ******/
+  var code = `\n`
+  +`/****** Object:  Table [dbo].[${text_t_name}]  ${text_t_title}  Script Date: ${t} ******/`
+  +`
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -264,7 +265,7 @@ ${firstField} ASC
 GO
 SET ANSI_PADDING OFF
 GO
-/****** ${_copyleft} ******/`;
+/****** ${_copyleft} ******/\n`;
   return code;
 };
 
