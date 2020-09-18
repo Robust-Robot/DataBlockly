@@ -1,6 +1,7 @@
 $(function() {
     //help page(tutorial online)
-    $("#walkthrough-content").load("dblock-tutorial.inc");
+    //部署虚拟主机不能调入
+    //$("#walkthrough-content").load("dblock-tutorial.inc");
 
     // Set up tour
     $('body').pagewalkthrough({
