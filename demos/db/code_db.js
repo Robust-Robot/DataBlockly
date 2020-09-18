@@ -616,3 +616,54 @@ document.write('<script src="msg/' + Code.LANG + '.js"></script>\n');
 document.write('<script src="../../msg/js/' + Code.LANG + '.js"></script>\n');
 
 window.addEventListener('load', Code.init);
+
+
+function getCode() {
+  // Generate JavaScript code and display it.
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+  return Blockly.JavaScript.workspaceToCode(Code.workspace); //dbWorkspace
+}
+
+function showCode() {
+  // Generate JavaScript code and display it.
+  // Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+  // var code = Blockly.JavaScript.workspaceToCode(dbWorkspace);
+  var code=getCode();
+  alert(code);
+}
+
+function runCode() {
+  // Generate JavaScript code and run it.
+  window.LoopTrap = 1000;
+  Blockly.JavaScript.INFINITE_LOOP_TRAP =
+      'if (--window.LoopTrap == 0) throw "Infinite loop.";\n';
+  var code = Blockly.JavaScript.workspaceToCode(Code.workspace);
+  Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+  try {
+      eval(code);
+  } catch (e) {
+      alert(e);
+  }
+}
+
+function copyCode()
+{
+  var code=getCode();
+  // <textarea cols="20" rows="10" id="biao1">用户定义的代码区域</textarea>
+  var oInput =document.createElement('textarea'); //input没有了换行
+  oInput.value = code;
+  document.body.appendChild(oInput);
+  oInput.select(); // 选择对象
+  var msg='';
+  try {
+      var successful = document.execCommand("Copy"); // 执行浏览器复制命令 document.execCommand('copy');
+      msg = successful ? '已复制到剪贴板' : '您的浏览器不支持点击复制到剪贴板';
+  } catch (err) {
+      msg='您的浏览器不支持点击复制到剪贴板';
+  }
+  
+  oInput.className = 'oInput';
+  oInput.style.display='none';
+  alert(msg);
+}
+
